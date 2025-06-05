@@ -17,7 +17,7 @@ connectDatabase();
 
 const app: Application = express();
 
-const frontendOrigin = 'http://localhost:5173'; // Your frontend's actual origin
+const frontendOrigin = 'https://child-vaccination-tracking-system.vercel.app'; // Your frontend's actual origin
 const backendPort = process.env.PORT || 5100; // Your backend's actual port
 
 const corsOptions: CorsOptions = {
