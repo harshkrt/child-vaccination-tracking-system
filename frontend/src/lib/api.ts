@@ -54,16 +54,8 @@ api.interceptors.response.use(
         console.warn('Unauthorized access (401). Token might be invalid or expired.');
         // Clear the stored token and user info
         localStorage.removeItem('token');
-        // Optionally, remove user from auth context if possible here or via an event
-        // authContext.logout(); // This would require access to the AuthContext or a global event bus.
 
-        // Redirect to login page, unless already on login/register
-        // Avoid redirect loops
         if (window.location.pathname !== '/login' && window.location.pathname !== '/register') {
-           // Simple redirect, might cause full page reload.
-           // Consider using useNavigate hook from react-router-dom if this code
-           // can be part of a React component or if using a global navigation service.
-          // window.location.href = '/login'; // Causes full page reload
 
           // Better approach: dispatch a custom event that a top-level component listens to
           const event = new CustomEvent('auth-unauthorized');
@@ -73,27 +65,15 @@ api.interceptors.response.use(
       } else if (error.response.status === 403) {
         // Handle Forbidden Access
         console.warn('Forbidden access (403). User does not have permission.');
-        // Optionally redirect to an "Access Denied" page or home page
-        // window.location.href = '/access-denied';
       }
-      // else {
-      //   // Handle other server errors (4xx, 5xx)
-      //   // You might want to show a generic error message to the user
-      // }
+
     } else if (error.request) {
-      // The request was made but no response was received
-      // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-      // http.ClientRequest in node.js
       console.error('Axios no response error:', error.request);
-      // This could be a network error, CORS issue, or server down
-      // You could return a generic network error message
       return Promise.reject(new Error("Network error: No response received from server. Please check your connection."));
     } else {
-      // Something happened in setting up the request that triggered an Error
       console.error('Axios setup error:', error.message);
     }
     
-    // Construct a more user-friendly error message from the response if possible
     if (error.response && error.response.data) {
         const errorData = error.response.data;
         const message = errorData.msg || errorData.message || error.message;

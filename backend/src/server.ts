@@ -17,12 +17,15 @@ connectDatabase();
 
 const app: Application = express();
 
-const frontendOrigin = 'https://child-vaccination-tracking-system.vercel.app'; // Your frontend's actual origin
-const backendPort = process.env.PORT || 5100; // Your backend's actual port
+const allowedOrigins = [
+  "https://child-vaccination-tracking-system.vercel.app",
+  "http://localhost:5173",
+]; // Your frontend's actual origin
+const backendPort = process.env.PORT; // Your backend's actual port
 
 const corsOptions: CorsOptions = {
   origin: (origin, callback) => {
-    if (origin === frontendOrigin || !origin) {
+    if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
       callback(new Error(`CORS policy does not allow access from origin: ${origin}`));
@@ -83,5 +86,5 @@ app.use(((err: any, req: Request, res: Response, next: NextFunction) => {
 
 app.listen(backendPort, () => {
     console.log(`Backend server is running on http://localhost:${backendPort}`);
-    console.log(`CORS policy allows frontend requests from: ${frontendOrigin}`);
+    console.log(`CORS policy allows frontend requests from: ${origin}`);
 });
