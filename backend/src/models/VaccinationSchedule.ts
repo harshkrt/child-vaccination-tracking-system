@@ -8,23 +8,23 @@ export interface IVaccinationSchedule extends Document {
   region: mongoose.Types.ObjectId;
   vaccine: mongoose.Types.ObjectId;
   date: Date;
-  status: "scheduled" | "completed" | "missed" | "cancelled";
+  status: "pending_approval" | "scheduled" | "completed" | "missed" | "cancelled" | "rejected_by_admin";
 }
 
 const scheduleSchema = new Schema<IVaccinationSchedule>(
   {
     child: { type: Schema.Types.ObjectId, ref: "Child", required: true },
     parent: { type: Schema.Types.ObjectId, ref: "User", required: true },
-    doctor: { type: Schema.Types.ObjectId, ref: "Doctor", required: true },
+    doctor: { type: Schema.Types.ObjectId, ref: "User", required: true },
     venue: { type: Schema.Types.ObjectId, ref: "Venue", required: true },
     region: { type: Schema.Types.ObjectId, ref: "Region", required: true },
     vaccine: { type: Schema.Types.ObjectId, ref: "Vaccine", required: true },
     date: { type: Date, required: true },
     status: {
       type: String,
-      enum: ["scheduled", "completed", "missed", "cancelled"],
+      enum: ["pending_approval", "scheduled", "completed", "missed", "cancelled", "rejected_by_admin"],
       required: true,
-      default: "scheduled",
+      default: "pending_approval",
     },
   },
   { timestamps: true }

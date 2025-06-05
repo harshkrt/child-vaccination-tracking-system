@@ -1,16 +1,16 @@
 import mongoose, { Document, Types } from "mongoose";
-import { IVenue } from "./Venue";
-import { IDoctor } from "./Doctor";
+// Removed: import { IDoctor } from "./Doctor"; // No longer needed
+
 export interface IRegion extends Document {
-    villageName: string;
-    doctor: Types.ObjectId;
+    name: string;
+    doctor: Types.ObjectId; // Will now refer to User model
     venue: Types.ObjectId;
 }
 
 const regionSchema = new mongoose.Schema<IRegion>(
     {
-        villageName: { type: String, required: true },
-        doctor: { type: mongoose.Schema.Types.ObjectId, ref: "Doctor", required: true },
+        name: { type: String, required: true, unique: true },
+        doctor: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
         venue: { type: mongoose.Schema.Types.ObjectId, ref: "Venue", required: true },
     },
     { timestamps: true }

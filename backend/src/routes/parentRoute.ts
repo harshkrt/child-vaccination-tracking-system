@@ -1,5 +1,5 @@
 import express from 'express';
-import { addChild, getChildren, scheduleVaccination, getVaccinationSchedule, cancelVaccination } from '../controllers/parentController';
+import { addChild, getChildren, scheduleVaccination, getVaccinationSchedule, cancelVaccination, getParentDashboardStats } from '../controllers/parentController';
 import { protect } from '../middlewares/authMiddleware';
 
 const router = express.Router();
@@ -19,4 +19,5 @@ router.get('/vaccination', protect, getVaccinationSchedule);
 //cancel vaccination
 router.delete('/cancel-vaccination/:id', protect, cancelVaccination);
 
+router.get('/dashboard-stats', protect, getParentDashboardStats);
 export default router;
