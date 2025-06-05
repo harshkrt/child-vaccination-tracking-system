@@ -24,7 +24,7 @@ const RegisterPage: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [role, setRole] = useState(ROLES.PARENT);
+  const [role] = useState(ROLES.PARENT);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false); // Local loading state for the form submission
   

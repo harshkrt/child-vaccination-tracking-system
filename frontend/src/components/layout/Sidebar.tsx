@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import { ROLES } from '../../constants';
-import { LogOut, UserCircle, LayoutDashboard, PlusCircle, List, ShieldCheck, Users, Stethoscope, Syringe, CalendarPlus, Home, FileQuestion, Trash2, CheckSquare, BarChart } from 'lucide-react';
+import { LogOut, UserCircle, LayoutDashboard, PlusCircle, List, Users, Stethoscope, Syringe, CalendarPlus, Home, FileQuestion, Trash2, CheckSquare, BarChart } from 'lucide-react';
 import { Button } from '../ui/Button';
 
 interface NavItemProps {

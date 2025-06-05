@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import api from '../../lib/api';
-import type { IParentChild } from '../../types';
+export interface IParentChild {
+  _id: string;
+  name: string;
+  dob: string;
+  gender: string;
+  // Add other fields as needed
+}
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
 import { Spinner } from '../../components/ui/Spinner';

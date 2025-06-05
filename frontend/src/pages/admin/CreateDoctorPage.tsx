@@ -1,5 +1,5 @@
-import React, { useState, FormEvent } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import type { FormEvent } from 'react';
 import api from '../../lib/api';
 import { Button } from '../../components/ui/Button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../../components/ui/Card';
@@ -14,7 +14,6 @@ const CreateDoctorPage: React.FC = () => {
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -39,9 +38,7 @@ const CreateDoctorPage: React.FC = () => {
       setName('');
       setEmail('');
       setPassword('');
-      // Optionally navigate away or to the user list
-      // setTimeout(() => navigate('/admin/manage-users?role=doctor'), 2000);
-    } catch (err: any) {
+    } catch (err: unknown) {
       setMessage({ type: 'error', text: getErrorMessage(err) });
     } finally {
       setIsLoading(false);

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import type { FormEvent } from 'react';
 import { useAuth } from '../../hooks/useAuth';
 import type { User } from '../../types';
-import api from '../../lib/api';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../../components/ui/Card';
 import { Input } from '../../components/ui/Input';
 import { Label } from '../../components/ui/Label';
@@ -49,25 +48,10 @@ const ProfilePage: React.FC = () => {
     }
 
     try {
-      // Note: The backend doesn't have a specific profile update endpoint yet.
-      // This assumes you might add one like PUT /auth/profile
-      // For now, we can only "refresh" the profile info from the context or by re-fetching.
-      // If you had a PATCH/PUT /api/users/profile endpoint:
-      /*
-      const response = await api.put('/auth/profile', { name, email });
-      const updatedUser = response.data.user; // Assuming backend returns updated user
-      login(token!, updatedUser); // Update AuthContext
-      setMessage({ type: 'success', text: 'Profile updated successfully!' });
-      */
-      
-      // Placeholder since there's no update endpoint:
       setMessage({ type: 'info', text: 'Profile display updated. (No backend update endpoint for now)' });
-      // Simulate updating user in context if needed for display purposes
        if (user) {
            const updatedDisplayUser: User = { ...user, name, email };
-           // This doesn't actually update the user on the server or persist if they re-login
-           // For a real update, backend API is required.
-           login(token!, updatedDisplayUser); // This updates the AuthContext
+           login(token!, updatedDisplayUser);
        }
 
 
@@ -78,7 +62,6 @@ const ProfilePage: React.FC = () => {
     }
   };
 
-  // const handlePasswordChange = async (e: FormEvent) => { ... }; // Implement if backend supports it
 
   if (isLoadingData || authLoading) {
     return <div className="flex justify-center items-center h-64"><Spinner size="lg" /></div>;

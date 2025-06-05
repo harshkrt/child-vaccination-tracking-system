@@ -1,4 +1,5 @@
-import React, { useState, FormEvent } from 'react';
+import React, { useState } from 'react';
+import type { FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../../lib/api';
 import { Button } from '../../components/ui/Button';
@@ -7,7 +8,7 @@ import { Input } from '../../components/ui/Input';
 import { Label } from '../../components/ui/Label';
 import { Select } from '../../components/ui/Select';
 import { getErrorMessage, formatDate } from '../../lib/utils';
-import { UserPlus, Calendar, Users as GenderIcon, AlertTriangle, CheckCircle } from 'lucide-react'; // Users for Gender
+import { UserPlus, AlertTriangle, CheckCircle } from 'lucide-react'; // Users for Gender
 import { GENDERS } from '../../constants';
 
 const AddChildPage: React.FC = () => {
