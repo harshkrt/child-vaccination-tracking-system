@@ -16,13 +16,11 @@ dotenv.config();
 connectDatabase();
 
 const app: Application = express();
-app.options('*', cors());
-const backendPort = process.env.PORT || 5000;
-
+const backendPort = process.env.PORT || 5100;
 
 const allowedOrigins = [
-  "https://child-vaccination-tracking-system.vercel.app",
   "http://localhost:5173",
+  "https://child-vaccination-tracking-system.vercel.app",
 ];
 
 const corsOptions: CorsOptions = {

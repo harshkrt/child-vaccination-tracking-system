@@ -1,33 +1,30 @@
 import axios from 'axios';
 import type { AxiosError, InternalAxiosRequestConfig, AxiosResponse } from 'axios';
-import { API_URL } from '../constants'; // Adjust the path if your constants file is elsewhere
+import { API_URL } from '../constants';
 
-// Define a type for your API error response structure if you have a consistent one
 interface ApiErrorResponse {
-  msg?: string; // From your backend, e.g., res.status(400).json({ msg: "Invalid Credentials" });
-  message?: string; // Common alternative error message key
-  // Add other potential error properties if your backend sends them
+  msg?: string;
+  message?: string;
 }
 
 const api = axios.create({
-  baseURL: API_URL, // e.g., http://localhost:5000/api if API_URL is /api
+  baseURL: API_URL,
   headers: {
     'Content-Type': 'application/json',
   },
-  withCredentials: true, // If you are using httpOnly cookies for tokens and backend is on different port/domain during dev
+  withCredentials: true,
 });
 
 // Request Interceptor: To add the JWT token to requests
 api.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
-    const token = localStorage.getItem('token'); // Or however you store your token
+    const token = localStorage.getItem('token');
     if (token && config.headers) {
       config.headers['Authorization'] = `Bearer ${token}`;
     }
     return config;
   },
   (error: AxiosError) => {
-    // Handle request error here
     console.error('Axios request error:', error);
     return Promise.reject(error);
   }
@@ -36,13 +33,10 @@ api.interceptors.request.use(
 // Response Interceptor: To handle global responses, like 401 for unauthorized
 api.interceptors.response.use(
   (response: AxiosResponse) => {
-    // Any status code that lie within the range of 2xx cause this function to trigger
-    // Do something with response data
     return response;
   },
   (error: AxiosError<ApiErrorResponse>) => {
     // Any status codes that falls outside the range of 2xx cause this function to trigger
-    // Do something with response error
     if (error.response) {
       // The request was made and the server responded with a status code
       // that falls out of the range of 2xx

@@ -1,10 +1,10 @@
 import React, { createContext, useState, useEffect } from 'react';
 import type { ReactNode } from 'react';
-import { API_URL } from '../constants'; // Ensure this path is correct
-import api from '../lib/api';       // Ensure this path is correct
+import { API_URL } from '../constants'; 
+import api from '../lib/api';   
 
 export interface User {
-  _id: string; // Using _id as it's common for MongoDB and likely what your backend sends
+  _id: string;
   name: string;
   email: string;
   role: string;
@@ -15,7 +15,7 @@ interface AuthContextType {
   token: string | null;
   isLoading: boolean;
   login: (token: string, userData: User) => void;
-  logout: () => Promise<void>; // Make async if you might add API calls
+  logout: () => Promise<void>;
   isAuthenticated: () => boolean;
 }
 
@@ -57,16 +57,15 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       } catch (error) {
         console.error('AuthContext useEffect: Failed to fetch profile with existing token, logging out.', error);
         if (isMounted) {
-          localStorage.removeItem('token'); // Critical: remove the invalid token
-          setUser(null);                     // Clear user
-          setToken(null);                    // This will trigger this useEffect again (clean slate)
+          localStorage.removeItem('token');
+          setUser(null);             
+          setToken(null);          
           delete api.defaults.headers.common['Authorization'];
-          // isLoading will be set to false in the next run of useEffect when token is null
         }
       } finally {
         // Only set isLoading to false if we've actually completed an attempt WITH a token.
         // If token became null due to an error, the next effect run will set isLoading.
-        if (isMounted && token) { // check token again because it might have been nulled in catch
+        if (isMounted && token) {
             console.log("AuthContext useEffect: Profile fetch attempt finished. Setting isLoading false.");
             setIsLoading(false);
         }
@@ -79,7 +78,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       console.log("AuthContext useEffect: Cleanup function running (component unmount or token change).");
       isMounted = false;
     };
-  }, [token]); // This effect runs only when the 'token' state itself changes
+  }, [token]);
 
   const login = (newToken: string, userData: User) => {
     console.log("AuthContext login called. User:", userData.email, "Token:", newToken?.substring(0,10)+"...");
