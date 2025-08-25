@@ -10,24 +10,27 @@ import authRoute from "./routes/authRoute";
 import parentRoute from "./routes/parentRoute";
 import doctorRoute from "./routes/doctorRoute";
 import adminRoute from "./routes/adminRoute";
-import { VaccinationSchedule } from "./models/VaccinationSchedule"; // Ensure this path is correct
+import { VaccinationSchedule } from "./models/VaccinationSchedule";
 
 dotenv.config();
 connectDatabase();
 
 const app: Application = express();
+const backendPort = process.env.PORT || 5000;
+
 
 const allowedOrigins = [
   "https://child-vaccination-tracking-system.vercel.app",
   "http://localhost:5173",
-]; // Your frontend's actual origin
-const backendPort = process.env.PORT; // Your backend's actual port
+];
 
 const corsOptions: CorsOptions = {
   origin: (origin, callback) => {
+    console.log(`CORS request received from: ${origin}`);
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
+      console.error(`CORS blocked for: ${origin}`);
       callback(new Error(`CORS policy does not allow access from origin: ${origin}`));
     }
   },
@@ -54,7 +57,7 @@ app.get("/api", (req: Request, res: Response) => {
     res.send("API base is running...");
 });
 
-cron.schedule("0 1 * * *", async() => { // Runs daily at 1:00 AM
+cron.schedule("0 1 * * *", async() => {
     console.log("Running cron job: Updating missed vaccination statuses...");
     const now = new Date();
     try {
@@ -80,11 +83,10 @@ app.use(((err: any, req: Request, res: Response, next: NextFunction) => {
   }
   res.status(err.status || 500).json({
     message: err.message || 'An unexpected internal server error occurred.',
-    // error: process.env.NODE_ENV === 'development' ? err : {}
   });
 }) as express.ErrorRequestHandler);
 
 app.listen(backendPort, () => {
-    console.log(`Backend server is running on http://localhost:${backendPort}`);
-    console.log(`CORS policy allows frontend requests from: ${origin}`);
+  console.log(`Backend server is running on http://localhost:${backendPort}`);
+  console.log("CORS policy allows frontend requests from:", allowedOrigins);
 });
