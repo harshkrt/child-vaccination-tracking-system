@@ -16,6 +16,7 @@ dotenv.config();
 connectDatabase();
 
 const app: Application = express();
+app.options('*', cors());
 const backendPort = process.env.PORT || 5000;
 
 
